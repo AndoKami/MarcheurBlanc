@@ -1,24 +1,26 @@
 package com.example.MarcheurBlanc.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
 @AllArgsConstructor
+@Getter
+@ToString
 public class Lieu {
-    private String nom;
-    private Set<Rue> rues;
+    private final String nom;
+    private List<Rue> rues = new ArrayList<>();
 
     public Lieu(String nom) {
         this.nom = nom;
-        this.rues = new HashSet<>();
     }
 
     public void ajouterRue(Rue rue) {
-        this.rues.add(rue);
+        if (!rues.contains(rue)) {
+            rues.add(rue);
+        }
     }
 }

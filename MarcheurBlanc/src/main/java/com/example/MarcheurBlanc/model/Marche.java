@@ -1,23 +1,22 @@
 package com.example.MarcheurBlanc.model;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 @Getter
 public class Marche {
-    private Lieu lieuDepart;
-    private List<Lieu> parcours;
+    private List<Lieu> trajet;
 
-    public Marche(Lieu lieuDepart) {
-        this.lieuDepart = lieuDepart;
-        this.parcours = new ArrayList<>();
-        parcours.add(lieuDepart);
-    }
+    @Override
+    public String toString() {
+        StringBuilder marche = new StringBuilder("Marche: ");
 
-    public void ajouterLieu(Lieu lieu) {
-        parcours.add(lieu);
+        for (Lieu lieu : trajet) {
+            marche.append(lieu.getNom()).append(" ");
+        }
+        return marche.toString();
     }
 }

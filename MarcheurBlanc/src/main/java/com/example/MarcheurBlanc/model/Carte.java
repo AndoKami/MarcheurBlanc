@@ -1,35 +1,20 @@
 package com.example.MarcheurBlanc.model;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Set;
 
+@AllArgsConstructor
 @Getter
 public class Carte {
-    private Map<String, Lieu> lieux;
-    private Map<String, Rue> rues;
-
-    public Carte() {
-        this.lieux = new HashMap<>();
-        this.rues = new HashMap<>();
-    }
+    private List<Lieu> lieux;
 
     public void ajouterLieu(Lieu lieu) {
-        lieux.put(lieu.getNom(), lieu);
+        if (!lieux.contains(lieu)) {
+            lieux.add(lieu);
+        }
     }
 
-    public void ajouterRue(String nomLieu1, String nomLieu2, String nomRue) {
-        Lieu lieu1 = lieux.computeIfAbsent(nomLieu1, Lieu::new);
-        Lieu lieu2 = lieux.computeIfAbsent(nomLieu2, Lieu::new);
-        Rue rue = new Rue(nomRue, lieu1, lieu2);
-        rues.put(nomRue, rue);
-        lieu1.ajouterRue(rue);
-        lieu2.ajouterRue(rue);
-    }
-
-    public Lieu getLieu(String nom) {
-        return lieux.get(nom);
-    }
 }

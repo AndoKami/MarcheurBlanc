@@ -1,30 +1,36 @@
 package com.example.MarcheurBlanc.model;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
+@AllArgsConstructor
 @Getter
 public class Marcheur {
-    private Lieu positionActuelle;
-    private Marche marcheEnCours;
+    private final String nom;
 
-    public Marcheur(Lieu positionActuelle) {
-        this.positionActuelle = positionActuelle;
-        this.marcheEnCours = new Marche(positionActuelle);
-    }
-
-    public void avancerAleatoirement() {
-        Set<Rue> ruesPossibles = positionActuelle.getRues();
-        List<Rue> ruesListe = new ArrayList<>(ruesPossibles);
-
-        if (!ruesListe.isEmpty()) {
-            Random random = new Random();
-            Rue rueChoisie = ruesListe.get(random.nextInt(ruesListe.size()));
-            Lieu prochainLieu = (rueChoisie.getLieu1().equals(positionActuelle)) ? rueChoisie.getLieu2() : rueChoisie.getLieu1();
-            positionActuelle = prochainLieu;
-            marcheEnCours.ajouterLieu(prochainLieu);
+    public Marche marcher(Carte carte, Lieu depart, Lieu destination) {
+        if (!carte.getLieux().contains(depart) || !carte.getLieux().contains(destination)) {
+            throw new RuntimeException("Tu t'es trompé de carte");
         }
+
+        List<Lieu> trajet = new ArrayList<>();
+        trajet.add(depart);
+        Random random = new Random();
+
+        while (!depart.equals(destination)) {
+            List<Rue> ruesDisponibles = new ArrayList<>(depart.getRues());
+            Rue rueChoisie = ruesDisponibles.get(random.nextInt(ruesDisponibles.size()));
+
+            Lieu prochainLieu = rueChoisie.lieuRelié(depart);
+            depart = prochainLieu;
+            trajet.add(depart);
+        }
+
+        return new Marche(trajet);
     }
+
 }
