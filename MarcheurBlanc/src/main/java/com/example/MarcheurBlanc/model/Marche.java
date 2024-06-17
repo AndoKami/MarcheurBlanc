@@ -14,8 +14,11 @@ public class Marche {
     public String toString() {
         StringBuilder marche = new StringBuilder("Marche: ");
 
-        for (Lieu lieu : trajet) {
-            marche.append(lieu.getNom()).append(" ");
+        for (int i = 0; i < trajet.size(); i++) {
+            marche.append(trajet.get(i).getNom());
+            if (i < trajet.size() - 1) {
+                marche.append(" -> ");
+            }
         }
         return marche.toString();
     }
